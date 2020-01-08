@@ -1,4 +1,5 @@
-﻿using LibNavigate.Iterator;
+﻿using LibNavigate.Algorithm;
+using LibNavigate.Iterator;
 using LibNavigate.Iterator.Extend;
 using LibNavigate.Iterator.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,6 +10,8 @@ namespace LibNavigateTests
     [TestClass()]
     public class IteratorTests
     {
+        public object Algorthm { get; private set; }
+
         [TestMethod()]
         public void RangeIteratorTest()
         {
@@ -269,6 +272,93 @@ namespace LibNavigateTests
 
                 }
             }
+        }
+
+        [TestMethod()]
+        public void MultipleInputIteratorTest()
+        {
+            int[] data1 = { 1, 2 };
+
+            int[] data2 = { 3, 4 };
+
+            IList<int> lst = new List<int>();
+
+            using (IInputIterator<int> inputIterator1 = new InputIterator<int>(data1))
+            {
+                using (IInputIterator<int> inputIterator2 = new InputIterator<int>(data2))
+                {
+                    using (IInputIterator<int> multiInputs = new MultipleInputIterator<int, int, int>(inputIterator1,
+                        inputIterator2, new SumZipper()))
+                    {
+                        using (IOutputIterator<int> output = new BackInsertIterator<int>(lst))
+                        {
+                            Algorithm.Copy(multiInputs, output);
+                        }
+                    }
+                }
+            }
+
+            Assert.IsTrue(lst.Count==2 &&
+                lst[0]==4 &&
+                lst[1]==6);
+        }
+
+        [TestMethod()]
+        public void MultipleInputIteratorTest2()
+        {
+            int[] data1 = { 1, 2 };
+
+            int[] data2 = { 3 };
+
+            IList<int> lst = new List<int>();
+
+            using (IInputIterator<int> inputIterator1 = new InputIterator<int>(data1))
+            {
+                using (IInputIterator<int> inputIterator2 = new InputIterator<int>(data2))
+                {
+                    using (IInputIterator<int> multiInputs = new MultipleInputIterator<int, int, int>(inputIterator1,
+                        inputIterator2, new SumZipper()))
+                    {
+                        using (IOutputIterator<int> output = new BackInsertIterator<int>(lst))
+                        {
+                            Algorithm.Copy(multiInputs, output);
+                        }
+                    }
+                }
+            }
+
+            Assert.IsTrue(lst.Count == 2 &&
+                lst[0] == 4 &&
+                lst[1] == 2);
+        }
+
+        [TestMethod()]
+        public void MultipleInputIteratorTest3()
+        {
+            int[] data1 = { 1 };
+
+            int[] data2 = { 3, 4 };
+
+            IList<int> lst = new List<int>();
+
+            using (IInputIterator<int> inputIterator1 = new InputIterator<int>(data1))
+            {
+                using (IInputIterator<int> inputIterator2 = new InputIterator<int>(data2))
+                {
+                    using (IInputIterator<int> multiInputs = new MultipleInputIterator<int, int, int>(inputIterator1,
+                        inputIterator2, new SumZipper()))
+                    {
+                        using (IOutputIterator<int> output = new BackInsertIterator<int>(lst))
+                        {
+                            Algorithm.Copy(multiInputs, output);
+                        }
+                    }
+                }
+            }
+
+            Assert.IsTrue(lst.Count == 2 &&
+                lst[0] == 4 &&
+                lst[1] == 4);
         }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="SortAlgorithmTests.cs" />
     <Compile Include="SortedRangeAlgorithmTests.cs" />
     <Compile Include="StringToIntConverter.cs" />
+    <Compile Include="SumZipper.cs" />
     <Compile Include="UtilityAlgorithmTests.cs" />
   </ItemGroup>
   <ItemGroup>
